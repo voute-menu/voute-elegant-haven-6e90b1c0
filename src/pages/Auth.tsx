@@ -26,6 +26,8 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      const email = toEmail(username);
+      if (!email.startsWith("@") === false || email.length < 5) throw new Error("اسم مستخدم غير صالح");
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email,
