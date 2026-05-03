@@ -49,11 +49,11 @@ const Index = () => {
       {/* HERO */}
       <section className="relative min-h-screen flex items-center justify-center bg-background">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 sadu-pattern opacity-50" />
+          <div className="absolute inset-0 sadu-pattern opacity-70" />
           <img
             src={vouteLogo}
             alt="شعار كافيه ڤوت VOUTE"
-            className="absolute inset-0 m-auto w-[80%] max-w-[600px] opacity-[0.07] object-contain"
+            className="absolute inset-0 m-auto w-[70%] max-w-[520px] opacity-[0.06] object-contain"
           />
         </div>
 
@@ -95,12 +95,12 @@ const Index = () => {
 
       {/* MENU */}
       <section id="menu" className="relative py-24 md:py-32">
-        <div className="absolute inset-0 sadu-pattern opacity-40 pointer-events-none" />
+        <div className="absolute inset-0 sadu-pattern opacity-60 pointer-events-none" />
         <img
           src={vouteLogo}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 m-auto w-[60%] max-w-[500px] opacity-[0.04] object-contain pointer-events-none"
+          className="absolute inset-0 m-auto w-[55%] max-w-[420px] opacity-[0.05] object-contain pointer-events-none"
         />
         <div className="container relative">
           <div className="text-center mb-16">
@@ -158,12 +158,12 @@ const Index = () => {
 
       {/* SOCIAL */}
       <section className="relative py-24 md:py-28 bg-secondary text-secondary-foreground overflow-hidden">
-        <div className="absolute inset-0 sadu-pattern opacity-20 pointer-events-none" />
+        <div className="absolute inset-0 sadu-pattern opacity-30 pointer-events-none" />
         <img
           src={vouteLogo}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 m-auto w-[60%] max-w-[500px] opacity-[0.05] object-contain pointer-events-none invert"
+          className="absolute inset-0 m-auto w-[55%] max-w-[420px] opacity-[0.08] object-contain pointer-events-none invert"
         />
         <div className="container relative text-center">
           <p className="text-gold tracking-[0.4em] text-xs md:text-sm mb-4">CONNECT</p>
