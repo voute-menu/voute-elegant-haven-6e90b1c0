@@ -256,7 +256,7 @@ const Index = () => {
       <section id="branches" className="relative py-20 md:py-24 bg-card">
         <div className="absolute inset-0 sadu-pattern opacity-40 pointer-events-none" />
         <div className="container relative">
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 reveal">
             <p className="text-gold tracking-[0.4em] text-xs md:text-sm mb-4">BRANCHES</p>
             <h2 className="font-display text-4xl md:text-5xl text-coffee">فروعنا</h2>
             <div className="gold-divider mt-4">
