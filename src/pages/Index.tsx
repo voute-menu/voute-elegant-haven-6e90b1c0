@@ -100,7 +100,7 @@ const Index = () => {
               const cover = items.find((i) => i.image_url)?.image_url;
               return (
                 <div key={cat.id} className="menu-card overflow-hidden !p-0 flex flex-col">
-                  <div className="relative h-48 overflow-hidden bg-muted">
+                  <div className="relative h-64 overflow-hidden bg-muted">
                     {cover ? (
                       <img
                         src={cover}
@@ -113,7 +113,7 @@ const Index = () => {
                         <Coffee className="w-10 h-10 text-gold/60" />
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent pointer-events-none" />
                   </div>
                   <div className="p-5 pt-3 flex-1 flex flex-col">
                     <h3 className="font-display text-2xl text-center text-coffee mb-2">
@@ -138,7 +138,7 @@ const Index = () => {
                               src={item.image_url}
                               alt={item.name}
                               loading="lazy"
-                              className="w-12 h-12 rounded-lg object-cover border border-border/60 flex-shrink-0"
+                              className="w-20 h-20 rounded-lg object-cover border border-border/60 flex-shrink-0 shadow-sm"
                             />
                           )}
                           <span className="font-medium">{item.name}</span>
