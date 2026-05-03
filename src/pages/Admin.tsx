@@ -389,6 +389,28 @@ const Admin = () => {
                           <span className="text-gold font-semibold">{p.price} ر.س</span>
                         </div>
                         <p className="text-xs text-muted-foreground">{cat?.name}</p>
+                        <div className="pt-2 border-t border-border/60">
+                          <p className="text-[11px] font-medium text-muted-foreground mb-1.5">متوفر في الفروع:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {branches.map((b) => {
+                              const checked = pb.some((x) => x.product_id === p.id && x.branch_id === b.id);
+                              return (
+                                <button
+                                  key={b.id}
+                                  type="button"
+                                  onClick={() => toggleProductBranch(p.id, b.id, !checked)}
+                                  className={`text-[11px] px-2 py-1 rounded-full border transition ${
+                                    checked
+                                      ? "bg-gold text-cream border-gold"
+                                      : "bg-background text-muted-foreground border-border hover:border-gold/60"
+                                  }`}
+                                >
+                                  {b.name}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
                         <div className="flex gap-1 pt-1">
                           <Button size="icon" variant="ghost" onClick={() => setEditingProd(p)}>
                             <Pencil className="w-4 h-4" />
