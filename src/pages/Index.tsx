@@ -1,9 +1,13 @@
 import { Instagram, MapPin, Music2 } from "lucide-react";
-import heroCoffee from "@/assets/hero-coffee.jpg";
+import vouteLogo from "@/assets/voute-logo.png";
+import hotCoffee from "@/assets/hot-coffee.jpg";
+import coldCoffee from "@/assets/cold-coffee.jpg";
+import specialtyDrinks from "@/assets/specialty-drinks.jpg";
 
 const menu = [
   {
     category: "قهوة ساخنة",
+    image: hotCoffee,
     items: [
       { name: "إسبريسو", price: "10" },
       { name: "أمريكانو", price: "12" },
@@ -15,6 +19,7 @@ const menu = [
   },
   {
     category: "قهوة باردة",
+    image: coldCoffee,
     items: [
       { name: "آيس أمريكانو", price: "14" },
       { name: "آيس لاتيه", price: "17" },
@@ -26,6 +31,7 @@ const menu = [
   },
   {
     category: "إضافات ومشروبات",
+    image: specialtyDrinks,
     items: [
       { name: "ماتشا لاتيه", price: "22" },
       { name: "شوكولاتة ساخنة", price: "18" },
@@ -41,22 +47,24 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center justify-center">
+      <section className="relative min-h-screen flex items-center justify-center bg-background">
         <div className="absolute inset-0">
+          <div className="absolute inset-0 sadu-pattern opacity-50" />
           <img
-            src={heroCoffee}
-            alt="فنجان قهوة مختصة في كافيه VOUTE"
-            className="w-full h-full object-cover"
-            width={1920}
-            height={1280}
+            src={vouteLogo}
+            alt="شعار كافيه ڤوت VOUTE"
+            className="absolute inset-0 m-auto w-[80%] max-w-[600px] opacity-[0.07] object-contain"
           />
-          <div className="absolute inset-0 bg-gradient-hero" />
-          <div className="absolute inset-0 sadu-pattern opacity-60" />
         </div>
 
         <div className="relative z-10 text-center px-6 max-w-3xl">
-          <p className="text-gold tracking-[0.5em] text-sm md:text-base mb-6 animate-fade-in-slow">
-            VOUTE • فــوت
+          <img
+            src={vouteLogo}
+            alt="شعار ڤوت"
+            className="w-24 md:w-28 mx-auto mb-6 animate-fade-in-slow"
+          />
+          <p className="text-gold tracking-[0.5em] text-sm md:text-base mb-4 animate-fade-in-slow">
+            VOUTE • ڤـوت
           </p>
           <div className="gold-divider animate-fade-in" style={{ animationDelay: "0.2s", opacity: 0 }}>
             <span className="text-gold text-xl">❖</span>
@@ -88,6 +96,12 @@ const Index = () => {
       {/* MENU */}
       <section id="menu" className="relative py-24 md:py-32">
         <div className="absolute inset-0 sadu-pattern opacity-40 pointer-events-none" />
+        <img
+          src={vouteLogo}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 m-auto w-[60%] max-w-[500px] opacity-[0.04] object-contain pointer-events-none"
+        />
         <div className="container relative">
           <div className="text-center mb-16">
             <p className="text-gold tracking-[0.4em] text-xs md:text-sm mb-4">M E N U</p>
@@ -102,27 +116,40 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {menu.map((cat) => (
-              <div key={cat.category} className="menu-card">
-                <h3 className="font-display text-2xl text-center text-coffee mb-2">
-                  {cat.category}
-                </h3>
-                <div className="gold-divider !my-4">
-                  <span className="text-gold text-sm">❖</span>
+              <div key={cat.category} className="menu-card overflow-hidden !p-0 flex flex-col">
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={cat.image}
+                    alt={cat.category}
+                    loading="lazy"
+                    width={800}
+                    height={800}
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                 </div>
-                <ul className="space-y-4 mt-4">
-                  {cat.items.map((item) => (
-                    <li
-                      key={item.name}
-                      className="flex items-baseline justify-between gap-3 text-foreground"
-                    >
-                      <span className="font-medium">{item.name}</span>
-                      <span className="flex-1 border-b border-dashed border-border/70 mx-2" />
-                      <span className="text-gold font-semibold whitespace-nowrap">
-                        {item.price} <span className="text-xs">ر.س</span>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="p-5 pt-3 flex-1 flex flex-col">
+                  <h3 className="font-display text-2xl text-center text-coffee mb-2">
+                    {cat.category}
+                  </h3>
+                  <div className="gold-divider !my-3">
+                    <span className="text-gold text-sm">❖</span>
+                  </div>
+                  <ul className="space-y-4 mt-2">
+                    {cat.items.map((item) => (
+                      <li
+                        key={item.name}
+                        className="flex items-baseline justify-between gap-3 text-foreground"
+                      >
+                        <span className="font-medium">{item.name}</span>
+                        <span className="flex-1 border-b border-dashed border-border/70 mx-2" />
+                        <span className="text-gold font-semibold whitespace-nowrap">
+                          {item.price} <span className="text-xs">ر.س</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ))}
           </div>
@@ -130,8 +157,14 @@ const Index = () => {
       </section>
 
       {/* SOCIAL */}
-      <section className="relative py-24 md:py-28 bg-secondary text-secondary-foreground">
+      <section className="relative py-24 md:py-28 bg-secondary text-secondary-foreground overflow-hidden">
         <div className="absolute inset-0 sadu-pattern opacity-20 pointer-events-none" />
+        <img
+          src={vouteLogo}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 m-auto w-[60%] max-w-[500px] opacity-[0.05] object-contain pointer-events-none invert"
+        />
         <div className="container relative text-center">
           <p className="text-gold tracking-[0.4em] text-xs md:text-sm mb-4">CONNECT</p>
           <h2 className="font-display text-4xl md:text-5xl text-cream">تواصل معنا</h2>
@@ -173,7 +206,7 @@ const Index = () => {
           </div>
 
           <div className="mt-16 pt-8 border-t border-cream/10">
-            <p className="font-display text-2xl text-gold tracking-widest">VOUTE • فــوت</p>
+            <p className="font-display text-2xl text-gold tracking-widest">VOUTE • ڤـوت</p>
             <p className="text-cream/50 text-sm mt-2">
               © {new Date().getFullYear()} جميع الحقوق محفوظة
             </p>
