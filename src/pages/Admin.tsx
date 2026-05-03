@@ -427,6 +427,50 @@ const Admin = () => {
             })}
           </div>
         </section>
+
+        {/* Branches */}
+        <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
+          <h2 className="font-display text-xl">الفروع</h2>
+          <p className="text-xs text-muted-foreground">حدّث اسم الفرع، عنوانه (الحي/الشارع)، ورابط الخرائط.</p>
+          <div className="space-y-4">
+            {branches.map((b) => (
+              <div key={b.id} className="grid md:grid-cols-3 gap-2 border border-border rounded-xl p-3 bg-background">
+                <Input
+                  placeholder="اسم الفرع"
+                  value={b.name}
+                  onChange={(e) => setBranches((prev) => prev.map((x) => x.id === b.id ? { ...x, name: e.target.value } : x))}
+                />
+                <Input
+                  placeholder="العنوان (الحي/الشارع)"
+                  value={b.address ?? ""}
+                  onChange={(e) => setBranches((prev) => prev.map((x) => x.id === b.id ? { ...x, address: e.target.value } : x))}
+                />
+                <Input
+                  placeholder="رابط Google Maps"
+                  value={b.maps_url ?? ""}
+                  onChange={(e) => setBranches((prev) => prev.map((x) => x.id === b.id ? { ...x, maps_url: e.target.value } : x))}
+                />
+                <div className="md:col-span-3 flex justify-end">
+                  <Button
+                    size="sm"
+                    className="bg-gold text-cream hover:opacity-90"
+                    onClick={async () => {
+                      const { error } = await supabase.from("branches").update({
+                        name: b.name,
+                        address: b.address,
+                        maps_url: b.maps_url,
+                      }).eq("id", b.id);
+                      if (error) return toast.error(error.message);
+                      toast.success("تم حفظ الفرع");
+                    }}
+                  >
+                    حفظ
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
