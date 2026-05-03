@@ -158,9 +158,6 @@ const Index = () => {
       </section>
 
 
-        </div>
-      </section>
-
       {/* SOCIAL */}
       <section className="relative py-24 md:py-28 bg-secondary text-secondary-foreground overflow-hidden">
         <div className="absolute inset-0 sadu-pattern opacity-30 pointer-events-none" />
