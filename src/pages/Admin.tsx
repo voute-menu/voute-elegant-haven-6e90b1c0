@@ -18,6 +18,7 @@ type Product = {
   sort_order: number;
   is_available: boolean;
 };
+type Branch = { id: string; name: string; sort_order: number };
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ const Admin = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [cats, setCats] = useState<Category[]>([]);
   const [prods, setProds] = useState<Product[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [pb, setPb] = useState<{ product_id: string; branch_id: string }[]>([]);
 
   // forms
   const [newCat, setNewCat] = useState("");
@@ -76,12 +79,28 @@ const Admin = () => {
   }, [navigate]);
 
   const loadData = async () => {
-    const [{ data: c }, { data: p }] = await Promise.all([
+    const [{ data: c }, { data: p }, { data: b }, { data: m }] = await Promise.all([
       supabase.from("categories").select("*").order("sort_order"),
       supabase.from("products").select("*").order("sort_order"),
+      supabase.from("branches").select("*").order("sort_order"),
+      supabase.from("product_branches").select("*"),
     ]);
     setCats(c ?? []);
     setProds(p ?? []);
+    setBranches(b ?? []);
+    setPb(m ?? []);
+  };
+
+  const toggleProductBranch = async (productId: string, branchId: string, checked: boolean) => {
+    if (checked) {
+      const { error } = await supabase.from("product_branches").insert({ product_id: productId, branch_id: branchId });
+      if (error) return toast.error(error.message);
+      setPb((prev) => [...prev, { product_id: productId, branch_id: branchId }]);
+    } else {
+      const { error } = await supabase.from("product_branches").delete().eq("product_id", productId).eq("branch_id", branchId);
+      if (error) return toast.error(error.message);
+      setPb((prev) => prev.filter((x) => !(x.product_id === productId && x.branch_id === branchId)));
+    }
   };
 
   const logout = async () => {
@@ -142,13 +161,18 @@ const Admin = () => {
     setPSubmitting(true);
     let image_url: string | null = null;
     if (pFile) image_url = await uploadImage(pFile);
-    const { error } = await supabase.from("products").insert({
+    const { data: inserted, error } = await supabase.from("products").insert({
       name: pName.trim(),
       price: Number(pPrice) || 0,
       category_id: pCat,
       image_url,
       sort_order: prods.filter((p) => p.category_id === pCat).length,
-    });
+    }).select().single();
+    if (!error && inserted && branches.length > 0) {
+      await supabase.from("product_branches").insert(
+        branches.map((b) => ({ product_id: inserted.id, branch_id: b.id }))
+      );
+    }
     setPSubmitting(false);
     if (error) return toast.error(error.message);
     setPName("");
@@ -365,6 +389,28 @@ const Admin = () => {
                           <span className="text-gold font-semibold">{p.price} ر.س</span>
                         </div>
                         <p className="text-xs text-muted-foreground">{cat?.name}</p>
+                        <div className="pt-2 border-t border-border/60">
+                          <p className="text-[11px] font-medium text-muted-foreground mb-1.5">متوفر في الفروع:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {branches.map((b) => {
+                              const checked = pb.some((x) => x.product_id === p.id && x.branch_id === b.id);
+                              return (
+                                <button
+                                  key={b.id}
+                                  type="button"
+                                  onClick={() => toggleProductBranch(p.id, b.id, !checked)}
+                                  className={`text-[11px] px-2 py-1 rounded-full border transition ${
+                                    checked
+                                      ? "bg-gold text-cream border-gold"
+                                      : "bg-background text-muted-foreground border-border hover:border-gold/60"
+                                  }`}
+                                >
+                                  {b.name}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
                         <div className="flex gap-1 pt-1">
                           <Button size="icon" variant="ghost" onClick={() => setEditingProd(p)}>
                             <Pencil className="w-4 h-4" />

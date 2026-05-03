@@ -13,23 +13,33 @@ type Product = {
   sort_order: number;
   is_available: boolean;
 };
+type Branch = { id: string; name: string; sort_order: number };
 
 const Index = () => {
   const [cats, setCats] = useState<Category[]>([]);
   const [prods, setProds] = useState<Product[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [pb, setPb] = useState<{ product_id: string; branch_id: string }[]>([]);
   const [activeCat, setActiveCat] = useState<string>("all");
 
   useEffect(() => {
     const load = async () => {
-      const [{ data: c }, { data: p }] = await Promise.all([
+      const [{ data: c }, { data: p }, { data: b }, { data: m }] = await Promise.all([
         supabase.from("categories").select("*").order("sort_order"),
         supabase.from("products").select("*").eq("is_available", true).order("sort_order"),
+        supabase.from("branches").select("*").order("sort_order"),
+        supabase.from("product_branches").select("*"),
       ]);
       setCats(c ?? []);
       setProds(p ?? []);
+      setBranches(b ?? []);
+      setPb(m ?? []);
     };
     load();
   }, []);
+
+  const branchesForProduct = (pid: string) =>
+    pb.filter((x) => x.product_id === pid).map((x) => branches.find((b) => b.id === x.branch_id)?.name).filter(Boolean) as string[];
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -168,11 +178,19 @@ const Index = () => {
                           لا توجد منتجات بعد
                         </div>
                       )}
-                      {items.map((item) => (
+                      {items.map((item) => {
+                        const itemBranches = branchesForProduct(item.id);
+                        const limited = branches.length > 0 && itemBranches.length > 0 && itemBranches.length < branches.length;
+                        return (
                         <div
                           key={item.id}
-                          className="bg-background/60 rounded-xl border border-border/60 overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow"
+                          className="bg-background/60 rounded-xl border border-border/60 overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow relative"
                         >
+                          {limited && (
+                            <div className="absolute top-2 right-2 z-10 bg-gold/95 text-cream text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-gold">
+                              {itemBranches.length === 1 ? itemBranches[0] : `${itemBranches.length} فروع`}
+                            </div>
+                          )}
                           {item.image_url ? (
                             <div className="aspect-square overflow-hidden bg-muted">
                               <img
@@ -192,9 +210,15 @@ const Index = () => {
                             <span className="text-gold font-semibold text-sm">
                               {item.price} <span className="text-[10px]">ر.س</span>
                             </span>
+                            {limited && (
+                              <span className="text-[10px] text-muted-foreground line-clamp-1">
+                                متوفر في: {itemBranches.join("، ")}
+                              </span>
+                            )}
                           </div>
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
