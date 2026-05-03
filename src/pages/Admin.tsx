@@ -161,13 +161,18 @@ const Admin = () => {
     setPSubmitting(true);
     let image_url: string | null = null;
     if (pFile) image_url = await uploadImage(pFile);
-    const { error } = await supabase.from("products").insert({
+    const { data: inserted, error } = await supabase.from("products").insert({
       name: pName.trim(),
       price: Number(pPrice) || 0,
       category_id: pCat,
       image_url,
       sort_order: prods.filter((p) => p.category_id === pCat).length,
-    });
+    }).select().single();
+    if (!error && inserted && branches.length > 0) {
+      await supabase.from("product_branches").insert(
+        branches.map((b) => ({ product_id: inserted.id, branch_id: b.id }))
+      );
+    }
     setPSubmitting(false);
     if (error) return toast.error(error.message);
     setPName("");
