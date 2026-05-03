@@ -122,33 +122,40 @@ const Index = () => {
                     <div className="gold-divider !my-3">
                       <span className="text-gold text-sm">❖</span>
                     </div>
-                    <ul className="space-y-4 mt-2">
+                    <div className="grid grid-cols-2 gap-3 mt-2">
                       {items.length === 0 && (
-                        <li className="text-center text-sm text-muted-foreground">
+                        <div className="col-span-2 text-center text-sm text-muted-foreground py-6">
                           لا توجد منتجات بعد
-                        </li>
+                        </div>
                       )}
                       {items.map((item) => (
-                        <li
+                        <div
                           key={item.id}
-                          className="flex items-center gap-3 text-foreground"
+                          className="bg-background/60 rounded-xl border border-border/60 overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow"
                         >
-                          {item.image_url && (
-                            <img
-                              src={item.image_url}
-                              alt={item.name}
-                              loading="lazy"
-                              className="w-20 h-20 rounded-lg object-cover border border-border/60 flex-shrink-0 shadow-sm"
-                            />
+                          {item.image_url ? (
+                            <div className="aspect-square overflow-hidden bg-muted">
+                              <img
+                                src={item.image_url}
+                                alt={item.name}
+                                loading="lazy"
+                                className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                              />
+                            </div>
+                          ) : (
+                            <div className="aspect-square flex items-center justify-center bg-muted">
+                              <Coffee className="w-8 h-8 text-gold/50" />
+                            </div>
                           )}
-                          <span className="font-medium">{item.name}</span>
-                          <span className="flex-1 border-b border-dashed border-border/70 mx-2" />
-                          <span className="text-gold font-semibold whitespace-nowrap">
-                            {item.price} <span className="text-xs">ر.س</span>
-                          </span>
-                        </li>
+                          <div className="p-2.5 flex flex-col items-center text-center gap-1">
+                            <span className="font-medium text-sm text-foreground line-clamp-1">{item.name}</span>
+                            <span className="text-gold font-semibold text-sm">
+                              {item.price} <span className="text-[10px]">ر.س</span>
+                            </span>
+                          </div>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 </div>
               );
