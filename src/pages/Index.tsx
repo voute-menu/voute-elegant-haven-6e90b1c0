@@ -64,13 +64,25 @@ const Index = () => {
             <br />
             في كلّ كوب
           </h1>
-          <a
-            href="#menu"
-            className="inline-block mt-10 px-10 py-3 rounded-full bg-gradient-gold text-cream font-semibold tracking-wider shadow-gold hover:scale-105 transition-transform duration-500 animate-fade-in"
-            style={{ animationDelay: "1s", opacity: 0 }}
-          >
-            تصفّح المنيو
-          </a>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="#menu"
+              className="inline-block px-10 py-3 rounded-full bg-gradient-gold text-cream font-semibold tracking-wider shadow-gold hover:scale-105 transition-transform duration-500 animate-fade-in"
+              style={{ animationDelay: "1s", opacity: 0 }}
+            >
+              تصفّح المنيو
+            </a>
+            <a
+              href="https://easymenu.site/loyalty-wallet/Voute/branch/CODE1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-card text-coffee border-2 border-gold/70 font-semibold tracking-wider hover:bg-gradient-gold hover:text-cream hover:border-transparent hover:scale-105 transition-all duration-500 animate-fade-in shadow-elegant"
+              style={{ animationDelay: "1.2s", opacity: 0 }}
+            >
+              <Gift className="w-5 h-5" />
+              برنامج الولاء
+            </a>
+          </div>
         </div>
       </section>
 
