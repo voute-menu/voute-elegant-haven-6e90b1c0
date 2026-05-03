@@ -27,6 +27,8 @@ const Admin = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [cats, setCats] = useState<Category[]>([]);
   const [prods, setProds] = useState<Product[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [pb, setPb] = useState<{ product_id: string; branch_id: string }[]>([]);
 
   // forms
   const [newCat, setNewCat] = useState("");
