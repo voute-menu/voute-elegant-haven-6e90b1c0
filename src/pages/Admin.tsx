@@ -79,12 +79,28 @@ const Admin = () => {
   }, [navigate]);
 
   const loadData = async () => {
-    const [{ data: c }, { data: p }] = await Promise.all([
+    const [{ data: c }, { data: p }, { data: b }, { data: m }] = await Promise.all([
       supabase.from("categories").select("*").order("sort_order"),
       supabase.from("products").select("*").order("sort_order"),
+      supabase.from("branches").select("*").order("sort_order"),
+      supabase.from("product_branches").select("*"),
     ]);
     setCats(c ?? []);
     setProds(p ?? []);
+    setBranches(b ?? []);
+    setPb(m ?? []);
+  };
+
+  const toggleProductBranch = async (productId: string, branchId: string, checked: boolean) => {
+    if (checked) {
+      const { error } = await supabase.from("product_branches").insert({ product_id: productId, branch_id: branchId });
+      if (error) return toast.error(error.message);
+      setPb((prev) => [...prev, { product_id: productId, branch_id: branchId }]);
+    } else {
+      const { error } = await supabase.from("product_branches").delete().eq("product_id", productId).eq("branch_id", branchId);
+      if (error) return toast.error(error.message);
+      setPb((prev) => prev.filter((x) => !(x.product_id === productId && x.branch_id === branchId)));
+    }
   };
 
   const logout = async () => {
