@@ -129,7 +129,7 @@ const Index = () => {
           className="absolute inset-0 m-auto w-[55%] max-w-[420px] opacity-[0.05] object-contain pointer-events-none"
         />
         <div className="container relative">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 reveal">
             <p className="text-gold tracking-[0.4em] text-xs md:text-sm mb-4">M E N U</p>
             <h2 className="font-display text-4xl md:text-5xl text-coffee">المنيو</h2>
             <div className="gold-divider mt-4">
