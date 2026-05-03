@@ -18,6 +18,7 @@ type Product = {
   sort_order: number;
   is_available: boolean;
 };
+type Branch = { id: string; name: string; sort_order: number };
 
 const Admin = () => {
   const navigate = useNavigate();
