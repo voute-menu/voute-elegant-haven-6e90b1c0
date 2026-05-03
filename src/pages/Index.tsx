@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Instagram, MapPin, Music2, Coffee } from "lucide-react";
+import { Instagram, MapPin, Music2, Coffee, Gift } from "lucide-react";
 import vouteLogo from "@/assets/voute-logo.png";
 import { supabase } from "@/integrations/supabase/client";
 
