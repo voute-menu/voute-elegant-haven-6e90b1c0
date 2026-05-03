@@ -16,22 +16,28 @@ export type Database = {
     Tables: {
       branches: {
         Row: {
+          address: string | null
           created_at: string
           id: string
+          maps_url: string | null
           name: string
           sort_order: number
           updated_at: string
         }
         Insert: {
+          address?: string | null
           created_at?: string
           id?: string
+          maps_url?: string | null
           name: string
           sort_order?: number
           updated_at?: string
         }
         Update: {
+          address?: string | null
           created_at?: string
           id?: string
+          maps_url?: string | null
           name?: string
           sort_order?: number
           updated_at?: string
