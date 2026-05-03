@@ -9,9 +9,12 @@ import { toast } from "sonner";
 const Auth = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "signup">("login");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const toEmail = (u: string) =>
+    `${u.trim().toLowerCase().replace(/[^a-z0-9_.-]/g, "")}@voute.local`;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
