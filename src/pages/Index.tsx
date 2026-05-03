@@ -154,22 +154,10 @@ const Index = () => {
               );
             })}
           </div>
-                      <li
-                        key={item.name}
-                        className="flex items-baseline justify-between gap-3 text-foreground"
-                      >
-                        <span className="font-medium">{item.name}</span>
-                        <span className="flex-1 border-b border-dashed border-border/70 mx-2" />
-                        <span className="text-gold font-semibold whitespace-nowrap">
-                          {item.price} <span className="text-xs">ر.س</span>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
+        </div>
+      </section>
+
+
         </div>
       </section>
 
