@@ -13,23 +13,33 @@ type Product = {
   sort_order: number;
   is_available: boolean;
 };
+type Branch = { id: string; name: string; sort_order: number };
 
 const Index = () => {
   const [cats, setCats] = useState<Category[]>([]);
   const [prods, setProds] = useState<Product[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [pb, setPb] = useState<{ product_id: string; branch_id: string }[]>([]);
   const [activeCat, setActiveCat] = useState<string>("all");
 
   useEffect(() => {
     const load = async () => {
-      const [{ data: c }, { data: p }] = await Promise.all([
+      const [{ data: c }, { data: p }, { data: b }, { data: m }] = await Promise.all([
         supabase.from("categories").select("*").order("sort_order"),
         supabase.from("products").select("*").eq("is_available", true).order("sort_order"),
+        supabase.from("branches").select("*").order("sort_order"),
+        supabase.from("product_branches").select("*"),
       ]);
       setCats(c ?? []);
       setProds(p ?? []);
+      setBranches(b ?? []);
+      setPb(m ?? []);
     };
     load();
   }, []);
+
+  const branchesForProduct = (pid: string) =>
+    pb.filter((x) => x.product_id === pid).map((x) => branches.find((b) => b.id === x.branch_id)?.name).filter(Boolean) as string[];
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
