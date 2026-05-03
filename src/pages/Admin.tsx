@@ -18,7 +18,7 @@ type Product = {
   sort_order: number;
   is_available: boolean;
 };
-type Branch = { id: string; name: string; sort_order: number };
+type Branch = { id: string; name: string; sort_order: number; address?: string | null; maps_url?: string | null };
 
 const Admin = () => {
   const navigate = useNavigate();
