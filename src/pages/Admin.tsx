@@ -240,8 +240,35 @@ const Admin = () => {
                   </>
                 ) : (
                   <>
-                    <span className="font-medium">{c.name}</span>
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex items-center justify-center shrink-0">
+                        {c.image_url ? (
+                          <img src={c.image_url} alt={c.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <ImageIcon className="w-5 h-5 text-muted-foreground" />
+                        )}
+                      </div>
+                      <span className="font-medium">{c.name}</span>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <Label htmlFor={`cat-img-${c.id}`} className="cursor-pointer text-xs px-3 py-1.5 rounded-md border border-border hover:bg-muted">
+                        {c.image_url ? "تغيير الصورة" : "رفع صورة"}
+                      </Label>
+                      <input
+                        id={`cat-img-${c.id}`}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) updateCategoryImage(c.id, f);
+                        }}
+                      />
+                      {c.image_url && (
+                        <Button size="sm" variant="ghost" onClick={() => updateCategoryImage(c.id, null)}>
+                          إزالة
+                        </Button>
+                      )}
                       <Button size="icon" variant="ghost" onClick={() => { setEditingCatId(c.id); setEditingCatName(c.name); }}>
                         <Pencil className="w-4 h-4" />
                       </Button>
