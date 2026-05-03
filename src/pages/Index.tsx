@@ -286,7 +286,7 @@ const Index = () => {
 
           <div className="flex items-center justify-center gap-6 md:gap-10 mt-12">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/voutecafe?igsh=Z2FlM2RndThvYWNo"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="إنستقرام"
@@ -295,22 +295,13 @@ const Index = () => {
               <Instagram className="w-6 h-6 md:w-7 md:h-7" />
             </a>
             <a
-              href="https://tiktok.com"
+              href="https://www.tiktok.com/@vooute"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="تيك توك"
               className="social-icon"
             >
               <Music2 className="w-6 h-6 md:w-7 md:h-7" />
-            </a>
-            <a
-              href="https://maps.app.goo.gl/LxvH6QnXXkyr3k1cA"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="الموقع على قوقل ماب"
-              className="social-icon"
-            >
-              <MapPin className="w-6 h-6 md:w-7 md:h-7" />
             </a>
           </div>
 
