@@ -229,7 +229,43 @@ const Index = () => {
       </section>
 
 
-      {/* SOCIAL */}
+      {/* BRANCHES */}
+      <section id="branches" className="relative py-20 md:py-24 bg-card">
+        <div className="absolute inset-0 sadu-pattern opacity-40 pointer-events-none" />
+        <div className="container relative">
+          <div className="text-center mb-12">
+            <p className="text-gold tracking-[0.4em] text-xs md:text-sm mb-4">BRANCHES</p>
+            <h2 className="font-display text-4xl md:text-5xl text-coffee">فروعنا</h2>
+            <div className="gold-divider mt-4">
+              <span className="text-gold">❖</span>
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {branches.map((b) => (
+              <div key={b.id} className="menu-card text-center flex flex-col items-center gap-3">
+                <MapPin className="w-7 h-7 text-gold" />
+                <h3 className="font-display text-2xl text-coffee">{b.name}</h3>
+                {b.address && (
+                  <p className="text-sm text-muted-foreground leading-relaxed">{b.address}</p>
+                )}
+                {b.maps_url && (
+                  <a
+                    href={b.maps_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-gold text-cream text-sm font-semibold tracking-wider shadow-gold hover:scale-105 transition-transform"
+                  >
+                    <MapPin className="w-4 h-4" />
+                    افتح في الخرائط
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
       <section className="relative py-24 md:py-28 bg-secondary text-secondary-foreground overflow-hidden">
         <div className="absolute inset-0 sadu-pattern opacity-30 pointer-events-none" />
         <img
