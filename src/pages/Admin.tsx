@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Trash2, Pencil, Plus, LogOut, ArrowRight, Image as ImageIcon } from "lucide-react";
 
-type Category = { id: string; name: string; sort_order: number };
+type Category = { id: string; name: string; sort_order: number; image_url?: string | null };
 type Product = {
   id: string;
   category_id: string;
