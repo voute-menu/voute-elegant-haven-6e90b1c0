@@ -138,7 +138,7 @@ const Index = () => {
                               src={item.image_url}
                               alt={item.name}
                               loading="lazy"
-                              className="w-12 h-12 rounded-lg object-cover border border-border/60 flex-shrink-0"
+                              className="w-20 h-20 rounded-lg object-cover border border-border/60 flex-shrink-0 shadow-sm"
                             />
                           )}
                           <span className="font-medium">{item.name}</span>
