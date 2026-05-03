@@ -3,7 +3,7 @@ import { Instagram, MapPin, Music2, Coffee, Gift } from "lucide-react";
 import vouteLogo from "@/assets/voute-logo.png";
 import { supabase } from "@/integrations/supabase/client";
 
-type Category = { id: string; name: string; sort_order: number };
+type Category = { id: string; name: string; sort_order: number; image_url?: string | null };
 type Product = {
   id: string;
   category_id: string;
@@ -137,7 +137,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {cats.filter((c) => activeCat === "all" || c.id === activeCat).map((cat) => {
               const items = prods.filter((p) => p.category_id === cat.id);
-              const cover = items.find((i) => i.image_url)?.image_url;
+              const cover = cat.image_url || items.find((i) => i.image_url)?.image_url;
               return (
                 <div key={cat.id} className="menu-card overflow-hidden !p-0 flex flex-col">
                   <div className="relative h-64 overflow-hidden bg-muted">
