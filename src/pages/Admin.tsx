@@ -125,6 +125,17 @@ const Admin = () => {
     const { data } = supabase.storage.from("product-images").getPublicUrl(path);
     return data.publicUrl;
   };
+  const updateCategoryImage = async (id: string, file: File | null) => {
+    let image_url: string | null = null;
+    if (file) {
+      image_url = await uploadImage(file);
+      if (!image_url) return;
+    }
+    const { error } = await supabase.from("categories").update({ image_url }).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success(file ? "تم تحديث الصورة" : "تم إزالة الصورة");
+    loadData();
+  };
 
   const addProduct = async () => {
     if (!pName.trim() || !pCat) return toast.error("الاسم والفئة مطلوبة");
