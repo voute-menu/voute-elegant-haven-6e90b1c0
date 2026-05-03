@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Trash2, Pencil, Plus, LogOut, ArrowRight, Image as ImageIcon } from "lucide-react";
 
-type Category = { id: string; name: string; sort_order: number };
+type Category = { id: string; name: string; sort_order: number; image_url?: string | null };
 type Product = {
   id: string;
   category_id: string;
@@ -125,6 +125,17 @@ const Admin = () => {
     const { data } = supabase.storage.from("product-images").getPublicUrl(path);
     return data.publicUrl;
   };
+  const updateCategoryImage = async (id: string, file: File | null) => {
+    let image_url: string | null = null;
+    if (file) {
+      image_url = await uploadImage(file);
+      if (!image_url) return;
+    }
+    const { error } = await supabase.from("categories").update({ image_url }).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success(file ? "تم تحديث الصورة" : "تم إزالة الصورة");
+    loadData();
+  };
 
   const addProduct = async () => {
     if (!pName.trim() || !pCat) return toast.error("الاسم والفئة مطلوبة");
@@ -240,8 +251,35 @@ const Admin = () => {
                   </>
                 ) : (
                   <>
-                    <span className="font-medium">{c.name}</span>
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex items-center justify-center shrink-0">
+                        {c.image_url ? (
+                          <img src={c.image_url} alt={c.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <ImageIcon className="w-5 h-5 text-muted-foreground" />
+                        )}
+                      </div>
+                      <span className="font-medium">{c.name}</span>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <Label htmlFor={`cat-img-${c.id}`} className="cursor-pointer text-xs px-3 py-1.5 rounded-md border border-border hover:bg-muted">
+                        {c.image_url ? "تغيير الصورة" : "رفع صورة"}
+                      </Label>
+                      <input
+                        id={`cat-img-${c.id}`}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) updateCategoryImage(c.id, f);
+                        }}
+                      />
+                      {c.image_url && (
+                        <Button size="sm" variant="ghost" onClick={() => updateCategoryImage(c.id, null)}>
+                          إزالة
+                        </Button>
+                      )}
                       <Button size="icon" variant="ghost" onClick={() => { setEditingCatId(c.id); setEditingCatName(c.name); }}>
                         <Pencil className="w-4 h-4" />
                       </Button>
