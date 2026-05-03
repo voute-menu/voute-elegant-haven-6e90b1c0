@@ -1,0 +1,1 @@
+UPDATE categories SET name = 'الحلويات' WHERE id = '755db288-3639-4e2a-bf1f-cadf869863c6';
