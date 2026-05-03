@@ -100,7 +100,7 @@ const Index = () => {
               const cover = items.find((i) => i.image_url)?.image_url;
               return (
                 <div key={cat.id} className="menu-card overflow-hidden !p-0 flex flex-col">
-                  <div className="relative h-48 overflow-hidden bg-muted">
+                  <div className="relative h-64 overflow-hidden bg-muted">
                     {cover ? (
                       <img
                         src={cover}
@@ -113,7 +113,7 @@ const Index = () => {
                         <Coffee className="w-10 h-10 text-gold/60" />
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent pointer-events-none" />
                   </div>
                   <div className="p-5 pt-3 flex-1 flex flex-col">
                     <h3 className="font-display text-2xl text-center text-coffee mb-2">
