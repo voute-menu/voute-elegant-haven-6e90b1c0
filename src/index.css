@@ -6,47 +6,47 @@
 
 @layer base {
   :root {
-    /* VOUTE Cafe — Brand Identity: Dark Coffee + Beige + Cream */
-    --background: 30 30% 12%;          /* dark coffee */
-    --foreground: 32 45% 88%;          /* beige cream */
+    /* VOUTE Cafe — Beige #EACEAC & Soft Gold Classic Saudi Heritage */
+    --background: 34 56% 80%;          /* brand beige #EACEAC */
+    --foreground: 25 35% 15%;          /* dark coffee */
 
-    --card: 30 28% 16%;
-    --card-foreground: 32 45% 90%;
+    --card: 40 45% 96%;                /* creamy white */
+    --card-foreground: 25 35% 15%;
 
-    --popover: 30 28% 16%;
-    --popover-foreground: 32 45% 90%;
+    --popover: 40 45% 96%;
+    --popover-foreground: 25 35% 15%;
 
-    --primary: 32 50% 78%;             /* brand beige */
-    --primary-foreground: 30 30% 12%;
+    --primary: 38 45% 55%;             /* soft gold */
+    --primary-foreground: 40 50% 98%;
 
-    --secondary: 32 45% 92%;           /* cream */
-    --secondary-foreground: 30 30% 12%;
+    --secondary: 25 30% 25%;           /* dark coffee brown */
+    --secondary-foreground: 40 45% 96%;
 
-    --muted: 30 22% 20%;
-    --muted-foreground: 32 30% 72%;
+    --muted: 34 45% 85%;
+    --muted-foreground: 25 30% 28%;
 
-    --accent: 32 50% 78%;
-    --accent-foreground: 30 30% 12%;
+    --accent: 38 55% 65%;              /* lighter gold */
+    --accent-foreground: 25 35% 15%;
 
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 32 45% 92%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 40 45% 96%;
 
-    --border: 30 20% 25%;
-    --input: 30 22% 22%;
-    --ring: 32 50% 78%;
+    --border: 34 40% 70%;
+    --input: 34 40% 78%;
+    --ring: 38 45% 55%;
 
     --radius: 0.75rem;
 
-    /* Custom tokens (names kept for compatibility) */
-    --gold: 32 50% 78%;                /* beige as accent */
-    --gold-soft: 32 45% 88%;
-    --coffee-dark: 30 30% 8%;
-    --cream: 32 45% 92%;
+    /* Custom tokens */
+    --gold: 38 55% 55%;
+    --gold-soft: 38 45% 70%;
+    --coffee-dark: 25 40% 18%;
+    --cream: 40 50% 96%;
 
-    --gradient-gold: linear-gradient(135deg, hsl(32 50% 78%), hsl(32 45% 90%));
-    --gradient-hero: linear-gradient(180deg, hsl(30 30% 12% / 0.4), hsl(30 30% 12% / 0.95));
-    --shadow-elegant: 0 10px 40px -10px hsl(0 0% 0% / 0.5);
-    --shadow-gold: 0 8px 30px -8px hsl(32 50% 78% / 0.35);
+    --gradient-gold: linear-gradient(135deg, hsl(38 55% 60%), hsl(40 65% 75%));
+    --gradient-hero: linear-gradient(180deg, hsl(34 56% 80% / 0.4), hsl(34 56% 80% / 0.95));
+    --shadow-elegant: 0 10px 40px -10px hsl(25 40% 18% / 0.25);
+    --shadow-gold: 0 8px 30px -8px hsl(38 55% 55% / 0.45);
 
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
