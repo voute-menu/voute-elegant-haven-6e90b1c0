@@ -3,6 +3,27 @@ import { Instagram, MapPin, Music2, Coffee, Gift } from "lucide-react";
 import vouteLogo from "@/assets/voute-logo.png";
 import { supabase } from "@/integrations/supabase/client";
 
+// Auto-reveal elements with .reveal class on scroll
+const useScrollReveal = (deps: unknown[] = []) => {
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in-view");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+};
+
 type Category = { id: string; name: string; sort_order: number; image_url?: string | null };
 type Product = {
   id: string;
@@ -37,6 +58,8 @@ const Index = () => {
     };
     load();
   }, []);
+
+  useScrollReveal([cats.length, prods.length, branches.length]);
 
   const branchesForProduct = (pid: string) =>
     pb.filter((x) => x.product_id === pid).map((x) => branches.find((b) => b.id === x.branch_id)?.name).filter(Boolean) as string[];
@@ -106,7 +129,7 @@ const Index = () => {
           className="absolute inset-0 m-auto w-[55%] max-w-[420px] opacity-[0.05] object-contain pointer-events-none"
         />
         <div className="container relative">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 reveal">
             <p className="text-gold tracking-[0.4em] text-xs md:text-sm mb-4">M E N U</p>
             <h2 className="font-display text-4xl md:text-5xl text-coffee">المنيو</h2>
             <div className="gold-divider mt-4">
@@ -149,7 +172,7 @@ const Index = () => {
               const items = prods.filter((p) => p.category_id === cat.id);
               const cover = cat.image_url || items.find((i) => i.image_url)?.image_url;
               return (
-                <div key={cat.id} className="menu-card overflow-hidden !p-0 flex flex-col">
+                <div key={cat.id} className="menu-card reveal overflow-hidden !p-0 flex flex-col">
                   <div className="relative h-64 overflow-hidden bg-muted">
                     {cover ? (
                       <img
@@ -233,7 +256,7 @@ const Index = () => {
       <section id="branches" className="relative py-20 md:py-24 bg-card">
         <div className="absolute inset-0 sadu-pattern opacity-40 pointer-events-none" />
         <div className="container relative">
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 reveal">
             <p className="text-gold tracking-[0.4em] text-xs md:text-sm mb-4">BRANCHES</p>
             <h2 className="font-display text-4xl md:text-5xl text-coffee">فروعنا</h2>
             <div className="gold-divider mt-4">
@@ -242,7 +265,7 @@ const Index = () => {
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {branches.map((b) => (
-              <div key={b.id} className="menu-card text-center flex flex-col items-center gap-3">
+              <div key={b.id} className="menu-card reveal text-center flex flex-col items-center gap-3">
                 <MapPin className="w-7 h-7 text-gold" />
                 <h3 className="font-display text-2xl text-coffee">{b.name}</h3>
                 {b.address && (
