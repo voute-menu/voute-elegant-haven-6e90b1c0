@@ -60,8 +60,8 @@ const Auth = () => {
         <p className="text-center text-sm text-muted-foreground">لوحة إدارة ڤوت</p>
 
         <div className="space-y-2">
-          <Label htmlFor="email">البريد الإلكتروني</Label>
-          <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Label htmlFor="username">اسم المستخدم</Label>
+          <Input id="username" type="text" required value={username} onChange={(e) => setUsername(e.target.value)} placeholder="admin" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">كلمة المرور</Label>
