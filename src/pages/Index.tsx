@@ -59,6 +59,8 @@ const Index = () => {
     load();
   }, []);
 
+  useScrollReveal([cats.length, prods.length, branches.length]);
+
   const branchesForProduct = (pid: string) =>
     pb.filter((x) => x.product_id === pid).map((x) => branches.find((b) => b.id === x.branch_id)?.name).filter(Boolean) as string[];
 
