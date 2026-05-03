@@ -172,7 +172,7 @@ const Index = () => {
               const items = prods.filter((p) => p.category_id === cat.id);
               const cover = cat.image_url || items.find((i) => i.image_url)?.image_url;
               return (
-                <div key={cat.id} className="menu-card overflow-hidden !p-0 flex flex-col">
+                <div key={cat.id} className="menu-card reveal overflow-hidden !p-0 flex flex-col">
                   <div className="relative h-64 overflow-hidden bg-muted">
                     {cover ? (
                       <img
