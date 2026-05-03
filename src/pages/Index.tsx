@@ -1,49 +1,35 @@
-import { Instagram, MapPin, Music2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Instagram, MapPin, Music2, Coffee } from "lucide-react";
 import vouteLogo from "@/assets/voute-logo.png";
-import hotCoffee from "@/assets/hot-coffee.jpg";
-import coldCoffee from "@/assets/cold-coffee.jpg";
-import specialtyDrinks from "@/assets/specialty-drinks.jpg";
+import { supabase } from "@/integrations/supabase/client";
 
-const menu = [
-  {
-    category: "قهوة ساخنة",
-    image: hotCoffee,
-    items: [
-      { name: "إسبريسو", price: "10" },
-      { name: "أمريكانو", price: "12" },
-      { name: "كابتشينو", price: "15" },
-      { name: "لاتيه", price: "16" },
-      { name: "فلات وايت", price: "16" },
-      { name: "في 60", price: "20" },
-    ],
-  },
-  {
-    category: "قهوة باردة",
-    image: coldCoffee,
-    items: [
-      { name: "آيس أمريكانو", price: "14" },
-      { name: "آيس لاتيه", price: "17" },
-      { name: "آيس سبانيش لاتيه", price: "19" },
-      { name: "كولد برو", price: "18" },
-      { name: "آيس موكا", price: "20" },
-      { name: "في 60 بارد", price: "22" },
-    ],
-  },
-  {
-    category: "إضافات ومشروبات",
-    image: specialtyDrinks,
-    items: [
-      { name: "ماتشا لاتيه", price: "22" },
-      { name: "شوكولاتة ساخنة", price: "18" },
-      { name: "شاي كرك", price: "10" },
-      { name: "حليب نباتي", price: "+3" },
-      { name: "شوت إضافي", price: "+3" },
-      { name: "نكهات", price: "+2" },
-    ],
-  },
-];
+type Category = { id: string; name: string; sort_order: number };
+type Product = {
+  id: string;
+  category_id: string;
+  name: string;
+  price: number;
+  image_url: string | null;
+  sort_order: number;
+  is_available: boolean;
+};
 
 const Index = () => {
+  const [cats, setCats] = useState<Category[]>([]);
+  const [prods, setProds] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      const [{ data: c }, { data: p }] = await Promise.all([
+        supabase.from("categories").select("*").order("sort_order"),
+        supabase.from("products").select("*").eq("is_available", true).order("sort_order"),
+      ]);
+      setCats(c ?? []);
+      setProds(p ?? []);
+    };
+    load();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* HERO */}
@@ -109,46 +95,68 @@ const Index = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {menu.map((cat) => (
-              <div key={cat.category} className="menu-card overflow-hidden !p-0 flex flex-col">
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={cat.image}
-                    alt={cat.category}
-                    loading="lazy"
-                    width={800}
-                    height={800}
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
-                </div>
-                <div className="p-5 pt-3 flex-1 flex flex-col">
-                  <h3 className="font-display text-2xl text-center text-coffee mb-2">
-                    {cat.category}
-                  </h3>
-                  <div className="gold-divider !my-3">
-                    <span className="text-gold text-sm">❖</span>
+            {cats.map((cat) => {
+              const items = prods.filter((p) => p.category_id === cat.id);
+              const cover = items.find((i) => i.image_url)?.image_url;
+              return (
+                <div key={cat.id} className="menu-card overflow-hidden !p-0 flex flex-col">
+                  <div className="relative h-48 overflow-hidden bg-muted">
+                    {cover ? (
+                      <img
+                        src={cover}
+                        alt={cat.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Coffee className="w-10 h-10 text-gold/60" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                   </div>
-                  <ul className="space-y-4 mt-2">
-                    {cat.items.map((item) => (
-                      <li
-                        key={item.name}
-                        className="flex items-baseline justify-between gap-3 text-foreground"
-                      >
-                        <span className="font-medium">{item.name}</span>
-                        <span className="flex-1 border-b border-dashed border-border/70 mx-2" />
-                        <span className="text-gold font-semibold whitespace-nowrap">
-                          {item.price} <span className="text-xs">ر.س</span>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="p-5 pt-3 flex-1 flex flex-col">
+                    <h3 className="font-display text-2xl text-center text-coffee mb-2">
+                      {cat.name}
+                    </h3>
+                    <div className="gold-divider !my-3">
+                      <span className="text-gold text-sm">❖</span>
+                    </div>
+                    <ul className="space-y-4 mt-2">
+                      {items.length === 0 && (
+                        <li className="text-center text-sm text-muted-foreground">
+                          لا توجد منتجات بعد
+                        </li>
+                      )}
+                      {items.map((item) => (
+                        <li
+                          key={item.id}
+                          className="flex items-center gap-3 text-foreground"
+                        >
+                          {item.image_url && (
+                            <img
+                              src={item.image_url}
+                              alt={item.name}
+                              loading="lazy"
+                              className="w-12 h-12 rounded-lg object-cover border border-border/60 flex-shrink-0"
+                            />
+                          )}
+                          <span className="font-medium">{item.name}</span>
+                          <span className="flex-1 border-b border-dashed border-border/70 mx-2" />
+                          <span className="text-gold font-semibold whitespace-nowrap">
+                            {item.price} <span className="text-xs">ر.س</span>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
+
 
       {/* SOCIAL */}
       <section className="relative py-24 md:py-28 bg-secondary text-secondary-foreground overflow-hidden">
