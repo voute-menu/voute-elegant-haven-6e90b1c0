@@ -1,49 +1,35 @@
-import { Instagram, MapPin, Music2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Instagram, MapPin, Music2, Coffee } from "lucide-react";
 import vouteLogo from "@/assets/voute-logo.png";
-import hotCoffee from "@/assets/hot-coffee.jpg";
-import coldCoffee from "@/assets/cold-coffee.jpg";
-import specialtyDrinks from "@/assets/specialty-drinks.jpg";
+import { supabase } from "@/integrations/supabase/client";
 
-const menu = [
-  {
-    category: "قهوة ساخنة",
-    image: hotCoffee,
-    items: [
-      { name: "إسبريسو", price: "10" },
-      { name: "أمريكانو", price: "12" },
-      { name: "كابتشينو", price: "15" },
-      { name: "لاتيه", price: "16" },
-      { name: "فلات وايت", price: "16" },
-      { name: "في 60", price: "20" },
-    ],
-  },
-  {
-    category: "قهوة باردة",
-    image: coldCoffee,
-    items: [
-      { name: "آيس أمريكانو", price: "14" },
-      { name: "آيس لاتيه", price: "17" },
-      { name: "آيس سبانيش لاتيه", price: "19" },
-      { name: "كولد برو", price: "18" },
-      { name: "آيس موكا", price: "20" },
-      { name: "في 60 بارد", price: "22" },
-    ],
-  },
-  {
-    category: "إضافات ومشروبات",
-    image: specialtyDrinks,
-    items: [
-      { name: "ماتشا لاتيه", price: "22" },
-      { name: "شوكولاتة ساخنة", price: "18" },
-      { name: "شاي كرك", price: "10" },
-      { name: "حليب نباتي", price: "+3" },
-      { name: "شوت إضافي", price: "+3" },
-      { name: "نكهات", price: "+2" },
-    ],
-  },
-];
+type Category = { id: string; name: string; sort_order: number };
+type Product = {
+  id: string;
+  category_id: string;
+  name: string;
+  price: number;
+  image_url: string | null;
+  sort_order: number;
+  is_available: boolean;
+};
 
 const Index = () => {
+  const [cats, setCats] = useState<Category[]>([]);
+  const [prods, setProds] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      const [{ data: c }, { data: p }] = await Promise.all([
+        supabase.from("categories").select("*").order("sort_order"),
+        supabase.from("products").select("*").eq("is_available", true).order("sort_order"),
+      ]);
+      setCats(c ?? []);
+      setProds(p ?? []);
+    };
+    load();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* HERO */}
