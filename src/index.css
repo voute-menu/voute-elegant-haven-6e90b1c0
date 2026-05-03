@@ -97,8 +97,8 @@
     box-shadow: 0 2px 12px -4px hsl(25 40% 18% / 0.08);
   }
   .menu-card:hover {
-    @apply -translate-y-1;
-    border-color: hsl(var(--gold) / 0.6);
+    @apply -translate-y-2 scale-[1.02];
+    border-color: hsl(var(--gold) / 0.7);
     box-shadow: var(--shadow-gold);
   }
 
