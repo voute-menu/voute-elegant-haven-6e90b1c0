@@ -17,6 +17,7 @@ type Product = {
 const Index = () => {
   const [cats, setCats] = useState<Category[]>([]);
   const [prods, setProds] = useState<Product[]>([]);
+  const [activeCat, setActiveCat] = useState<string>("all");
 
   useEffect(() => {
     const load = async () => {
@@ -94,8 +95,35 @@ const Index = () => {
             </p>
           </div>
 
+          {/* Category filter buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 mb-12">
+            <button
+              onClick={() => setActiveCat("all")}
+              className={`px-6 md:px-8 py-2.5 rounded-full text-sm md:text-base font-semibold tracking-wider transition-all duration-500 border ${
+                activeCat === "all"
+                  ? "bg-gradient-gold text-cream border-transparent shadow-gold scale-105"
+                  : "bg-card text-coffee border-border hover:border-gold/60 hover:-translate-y-0.5"
+              }`}
+            >
+              الكل
+            </button>
+            {cats.slice(0, 3).map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCat(cat.id)}
+                className={`px-6 md:px-8 py-2.5 rounded-full text-sm md:text-base font-semibold tracking-wider transition-all duration-500 border ${
+                  activeCat === cat.id
+                    ? "bg-gradient-gold text-cream border-transparent shadow-gold scale-105"
+                    : "bg-card text-coffee border-border hover:border-gold/60 hover:-translate-y-0.5"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {cats.map((cat) => {
+            {cats.filter((c) => activeCat === "all" || c.id === activeCat).map((cat) => {
               const items = prods.filter((p) => p.category_id === cat.id);
               const cover = items.find((i) => i.image_url)?.image_url;
               return (
