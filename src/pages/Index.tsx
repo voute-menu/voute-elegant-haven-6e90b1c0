@@ -95,28 +95,65 @@ const Index = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {menu.map((cat) => (
-              <div key={cat.category} className="menu-card overflow-hidden !p-0 flex flex-col">
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={cat.image}
-                    alt={cat.category}
-                    loading="lazy"
-                    width={800}
-                    height={800}
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
-                </div>
-                <div className="p-5 pt-3 flex-1 flex flex-col">
-                  <h3 className="font-display text-2xl text-center text-coffee mb-2">
-                    {cat.category}
-                  </h3>
-                  <div className="gold-divider !my-3">
-                    <span className="text-gold text-sm">❖</span>
+            {cats.map((cat) => {
+              const items = prods.filter((p) => p.category_id === cat.id);
+              const cover = items.find((i) => i.image_url)?.image_url;
+              return (
+                <div key={cat.id} className="menu-card overflow-hidden !p-0 flex flex-col">
+                  <div className="relative h-48 overflow-hidden bg-muted">
+                    {cover ? (
+                      <img
+                        src={cover}
+                        alt={cat.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Coffee className="w-10 h-10 text-gold/60" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                   </div>
-                  <ul className="space-y-4 mt-2">
-                    {cat.items.map((item) => (
+                  <div className="p-5 pt-3 flex-1 flex flex-col">
+                    <h3 className="font-display text-2xl text-center text-coffee mb-2">
+                      {cat.name}
+                    </h3>
+                    <div className="gold-divider !my-3">
+                      <span className="text-gold text-sm">❖</span>
+                    </div>
+                    <ul className="space-y-4 mt-2">
+                      {items.length === 0 && (
+                        <li className="text-center text-sm text-muted-foreground">
+                          لا توجد منتجات بعد
+                        </li>
+                      )}
+                      {items.map((item) => (
+                        <li
+                          key={item.id}
+                          className="flex items-center gap-3 text-foreground"
+                        >
+                          {item.image_url && (
+                            <img
+                              src={item.image_url}
+                              alt={item.name}
+                              loading="lazy"
+                              className="w-12 h-12 rounded-lg object-cover border border-border/60 flex-shrink-0"
+                            />
+                          )}
+                          <span className="font-medium">{item.name}</span>
+                          <span className="flex-1 border-b border-dashed border-border/70 mx-2" />
+                          <span className="text-gold font-semibold whitespace-nowrap">
+                            {item.price} <span className="text-xs">ر.س</span>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
                       <li
                         key={item.name}
                         className="flex items-baseline justify-between gap-3 text-foreground"
