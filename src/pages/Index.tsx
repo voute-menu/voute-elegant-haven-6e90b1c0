@@ -3,6 +3,27 @@ import { Instagram, MapPin, Music2, Coffee, Gift } from "lucide-react";
 import vouteLogo from "@/assets/voute-logo.png";
 import { supabase } from "@/integrations/supabase/client";
 
+// Auto-reveal elements with .reveal class on scroll
+const useScrollReveal = (deps: unknown[] = []) => {
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in-view");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+};
+
 type Category = { id: string; name: string; sort_order: number; image_url?: string | null };
 type Product = {
   id: string;
