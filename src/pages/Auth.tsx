@@ -9,9 +9,12 @@ import { toast } from "sonner";
 const Auth = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "signup">("login");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const toEmail = (u: string) =>
+    `${u.trim().toLowerCase().replace(/[^a-z0-9_.-]/g, "")}@voute.local`;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -23,6 +26,8 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      const email = toEmail(username);
+      if (!email.startsWith("@") === false || email.length < 5) throw new Error("اسم مستخدم غير صالح");
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email,
@@ -55,8 +60,8 @@ const Auth = () => {
         <p className="text-center text-sm text-muted-foreground">لوحة إدارة ڤوت</p>
 
         <div className="space-y-2">
-          <Label htmlFor="email">البريد الإلكتروني</Label>
-          <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Label htmlFor="username">اسم المستخدم</Label>
+          <Input id="username" type="text" required value={username} onChange={(e) => setUsername(e.target.value)} placeholder="admin" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">كلمة المرور</Label>
