@@ -109,7 +109,19 @@
     box-shadow: 0 6px 20px -6px hsl(var(--gold) / 0.5);
   }
   .social-icon:hover {
-    @apply scale-110;
+    @apply scale-110 -translate-y-1 rotate-6;
     box-shadow: 0 0 30px hsl(var(--gold) / 0.7), 0 0 60px hsl(var(--gold) / 0.3);
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
