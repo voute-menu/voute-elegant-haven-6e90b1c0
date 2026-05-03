@@ -265,7 +265,7 @@ const Index = () => {
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {branches.map((b) => (
-              <div key={b.id} className="menu-card text-center flex flex-col items-center gap-3">
+              <div key={b.id} className="menu-card reveal text-center flex flex-col items-center gap-3">
                 <MapPin className="w-7 h-7 text-gold" />
                 <h3 className="font-display text-2xl text-coffee">{b.name}</h3>
                 {b.address && (
