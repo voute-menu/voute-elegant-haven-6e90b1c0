@@ -77,12 +77,6 @@ const Index = () => {
             <br />
             في كلّ كوب
           </h1>
-          <p
-            className="mt-8 text-muted-foreground text-base md:text-lg animate-fade-in"
-            style={{ animationDelay: "0.7s", opacity: 0 }}
-          >
-            قهوة مختصة بلمسة تراثية سعودية، حيث تلتقي الأصالة بالذوق الرفيع.
-          </p>
           <a
             href="#menu"
             className="inline-block mt-10 px-10 py-3 rounded-full bg-gradient-gold text-cream font-semibold tracking-wider shadow-gold hover:scale-105 transition-transform duration-500 animate-fade-in"
@@ -172,7 +166,7 @@ const Index = () => {
             <span className="text-gold">❖</span>
           </div>
           <p className="text-cream/70 max-w-md mx-auto mt-4">
-            تابعنا على منصات التواصل وزُر فرعنا.
+            تابعنا وشارك تجربتك
           </p>
 
           <div className="flex items-center justify-center gap-6 md:gap-10 mt-12">
