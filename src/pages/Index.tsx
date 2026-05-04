@@ -113,7 +113,7 @@ const Index = () => {
               style={{ animationDelay: "1.2s", opacity: 0 }}
             >
               <Gift className="w-5 h-5" />
-              برنامج الولاء
+              ولاء
             </a>
           </div>
         </div>
