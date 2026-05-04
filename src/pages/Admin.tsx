@@ -383,7 +383,7 @@ const Admin = () => {
         {/* Products list */}
         <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
           <h2 className="font-display text-xl">المنتجات</h2>
-          <p className="text-xs text-muted-foreground">استخدم الأسهم لتغيير ترتيب المنتج داخل قسمه.</p>
+          <p className="text-xs text-muted-foreground">اكتب رقم الترتيب لكل منتج (الأصغر يظهر أولاً) داخل قسمه.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[...prods].sort((a, b) => {
               if (a.category_id !== b.category_id) {
