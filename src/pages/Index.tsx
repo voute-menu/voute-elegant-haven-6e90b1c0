@@ -302,7 +302,7 @@ const Index = () => {
           </div>
 
           <div className="mt-16 pt-8 border-t border-cream/10">
-            <p className="font-display text-2xl text-gold tracking-widest">VOUTE • ڤـوت</p>
+            <p className="font-display text-2xl text-gold tracking-widest">VOUTE</p>
             <p className="text-cream/50 text-sm mt-2">
               © {new Date().getFullYear()} جميع الحقوق محفوظة
             </p>
