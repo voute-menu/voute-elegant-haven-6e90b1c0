@@ -503,7 +503,17 @@ const Admin = () => {
                   value={b.maps_url ?? ""}
                   onChange={(e) => setBranches((prev) => prev.map((x) => x.id === b.id ? { ...x, maps_url: e.target.value } : x))}
                 />
-                <div className="md:col-span-3 flex justify-end">
+                <div className="md:col-span-3 flex justify-between items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <Label className="text-xs text-muted-foreground">ترتيب العرض</Label>
+                    <Input
+                      type="number"
+                      className="h-9 w-20"
+                      value={b.sort_order}
+                      onChange={(e) => setBranches((prev) => prev.map((x) => x.id === b.id ? { ...x, sort_order: Number(e.target.value) } : x))}
+                      onBlur={(e) => updateSortOrder("branches", b.id, Number(e.target.value) || 0)}
+                    />
+                  </div>
                   <Button
                     size="sm"
                     className="bg-gold text-cream hover:opacity-90"
