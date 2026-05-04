@@ -152,7 +152,7 @@ const Index = () => {
             >
               الكل
             </button>
-            {cats.slice(0, 3).map((cat) => (
+            {cats.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCat(cat.id)}
