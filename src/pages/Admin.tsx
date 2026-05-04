@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Trash2, Pencil, Plus, LogOut, ArrowRight, Image as ImageIcon, ChevronUp, ChevronDown } from "lucide-react";
+import { Trash2, Pencil, Plus, LogOut, ArrowRight, Image as ImageIcon } from "lucide-react";
 
 type Category = { id: string; name: string; sort_order: number; image_url?: string | null };
 type Product = {
@@ -212,27 +212,18 @@ const Admin = () => {
     loadData();
   };
 
-  const moveProduct = async (product: Product, direction: -1 | 1) => {
-    const siblings = prods
-      .filter((x) => x.category_id === product.category_id)
-      .sort((a, b) => a.sort_order - b.sort_order);
-    const idx = siblings.findIndex((x) => x.id === product.id);
-    const swapIdx = idx + direction;
-    if (swapIdx < 0 || swapIdx >= siblings.length) return;
-    const other = siblings[swapIdx];
-    const a = product.sort_order;
-    const b = other.sort_order;
-    // optimistic
-    setProds((prev) => prev.map((p) => {
-      if (p.id === product.id) return { ...p, sort_order: b };
-      if (p.id === other.id) return { ...p, sort_order: a };
-      return p;
-    }));
-    const [r1, r2] = await Promise.all([
-      supabase.from("products").update({ sort_order: b }).eq("id", product.id),
-      supabase.from("products").update({ sort_order: a }).eq("id", other.id),
-    ]);
-    if (r1.error || r2.error) {
+  const updateSortOrder = async (
+    table: "categories" | "products" | "branches",
+    id: string,
+    value: number
+  ) => {
+    const setter =
+      table === "categories" ? setCats : table === "products" ? setProds : setBranches;
+    (setter as any)((prev: any[]) =>
+      prev.map((x) => (x.id === id ? { ...x, sort_order: value } : x))
+    );
+    const { error } = await supabase.from(table).update({ sort_order: value }).eq("id", id);
+    if (error) {
       toast.error("فشل تغيير الترتيب");
       loadData();
     }
@@ -312,6 +303,20 @@ const Admin = () => {
                       <span className="font-medium">{c.name}</span>
                     </div>
                     <div className="flex gap-2 items-center">
+                      <div className="flex items-center gap-1">
+                        <Label className="text-[11px] text-muted-foreground">ترتيب</Label>
+                        <Input
+                          type="number"
+                          className="h-8 w-16"
+                          value={c.sort_order}
+                          onChange={(e) =>
+                            setCats((prev) =>
+                              prev.map((x) => (x.id === c.id ? { ...x, sort_order: Number(e.target.value) } : x))
+                            )
+                          }
+                          onBlur={(e) => updateSortOrder("categories", c.id, Number(e.target.value) || 0)}
+                        />
+                      </div>
                       <Label htmlFor={`cat-img-${c.id}`} className="cursor-pointer text-xs px-3 py-1.5 rounded-md border border-border hover:bg-muted">
                         {c.image_url ? "تغيير الصورة" : "رفع صورة"}
                       </Label>
@@ -378,7 +383,7 @@ const Admin = () => {
         {/* Products list */}
         <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
           <h2 className="font-display text-xl">المنتجات</h2>
-          <p className="text-xs text-muted-foreground">استخدم الأسهم لتغيير ترتيب المنتج داخل قسمه.</p>
+          <p className="text-xs text-muted-foreground">اكتب رقم الترتيب لكل منتج (الأصغر يظهر أولاً) داخل قسمه.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[...prods].sort((a, b) => {
               if (a.category_id !== b.category_id) {
@@ -446,12 +451,20 @@ const Admin = () => {
                           </div>
                         </div>
                         <div className="flex gap-1 pt-1 items-center">
-                          <Button size="icon" variant="ghost" title="تحريك للأعلى" onClick={() => moveProduct(p, -1)}>
-                            <ChevronUp className="w-4 h-4" />
-                          </Button>
-                          <Button size="icon" variant="ghost" title="تحريك للأسفل" onClick={() => moveProduct(p, 1)}>
-                            <ChevronDown className="w-4 h-4" />
-                          </Button>
+                          <div className="flex items-center gap-1 mr-auto">
+                            <Label className="text-[11px] text-muted-foreground">ترتيب</Label>
+                            <Input
+                              type="number"
+                              className="h-8 w-16"
+                              value={p.sort_order}
+                              onChange={(e) =>
+                                setProds((prev) =>
+                                  prev.map((x) => (x.id === p.id ? { ...x, sort_order: Number(e.target.value) } : x))
+                                )
+                              }
+                              onBlur={(e) => updateSortOrder("products", p.id, Number(e.target.value) || 0)}
+                            />
+                          </div>
                           <Button size="icon" variant="ghost" onClick={() => setEditingProd(p)}>
                             <Pencil className="w-4 h-4" />
                           </Button>
@@ -490,7 +503,17 @@ const Admin = () => {
                   value={b.maps_url ?? ""}
                   onChange={(e) => setBranches((prev) => prev.map((x) => x.id === b.id ? { ...x, maps_url: e.target.value } : x))}
                 />
-                <div className="md:col-span-3 flex justify-end">
+                <div className="md:col-span-3 flex justify-between items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <Label className="text-xs text-muted-foreground">ترتيب العرض</Label>
+                    <Input
+                      type="number"
+                      className="h-9 w-20"
+                      value={b.sort_order}
+                      onChange={(e) => setBranches((prev) => prev.map((x) => x.id === b.id ? { ...x, sort_order: Number(e.target.value) } : x))}
+                      onBlur={(e) => updateSortOrder("branches", b.id, Number(e.target.value) || 0)}
+                    />
+                  </div>
                   <Button
                     size="sm"
                     className="bg-gold text-cream hover:opacity-90"
