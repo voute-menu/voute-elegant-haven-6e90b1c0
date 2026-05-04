@@ -103,10 +103,10 @@
   }
 
   .social-icon {
-    @apply w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-500;
+    @apply w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center transition-all duration-500;
     background: var(--gradient-gold);
     color: hsl(var(--cream));
-    box-shadow: 0 6px 20px -6px hsl(var(--gold) / 0.5);
+    box-shadow: 0 10px 30px -8px hsl(var(--gold) / 0.6);
   }
   .social-icon:hover {
     @apply scale-110 -translate-y-1 rotate-6;
