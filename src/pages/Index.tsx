@@ -97,7 +97,7 @@ const Index = () => {
             <br />
             في كلّ كوب
           </h1>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-10 flex flex-col items-center justify-center gap-4">
             <a
               href="#menu"
               className="inline-block px-10 py-3 rounded-full bg-gradient-gold text-cream font-semibold tracking-wider shadow-gold hover:scale-105 transition-transform duration-500 animate-fade-in"
