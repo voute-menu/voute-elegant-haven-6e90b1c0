@@ -437,12 +437,20 @@ const Admin = () => {
                           </div>
                         </div>
                         <div className="flex gap-1 pt-1 items-center">
-                          <Button size="icon" variant="ghost" title="تحريك للأعلى" onClick={() => moveProduct(p, -1)}>
-                            <ChevronUp className="w-4 h-4" />
-                          </Button>
-                          <Button size="icon" variant="ghost" title="تحريك للأسفل" onClick={() => moveProduct(p, 1)}>
-                            <ChevronDown className="w-4 h-4" />
-                          </Button>
+                          <div className="flex items-center gap-1 mr-auto">
+                            <Label className="text-[11px] text-muted-foreground">ترتيب</Label>
+                            <Input
+                              type="number"
+                              className="h-8 w-16"
+                              value={p.sort_order}
+                              onChange={(e) =>
+                                setProds((prev) =>
+                                  prev.map((x) => (x.id === p.id ? { ...x, sort_order: Number(e.target.value) } : x))
+                                )
+                              }
+                              onBlur={(e) => updateSortOrder("products", p.id, Number(e.target.value) || 0)}
+                            />
+                          </div>
                           <Button size="icon" variant="ghost" onClick={() => setEditingProd(p)}>
                             <Pencil className="w-4 h-4" />
                           </Button>
