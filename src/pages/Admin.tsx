@@ -303,6 +303,20 @@ const Admin = () => {
                       <span className="font-medium">{c.name}</span>
                     </div>
                     <div className="flex gap-2 items-center">
+                      <div className="flex items-center gap-1">
+                        <Label className="text-[11px] text-muted-foreground">ترتيب</Label>
+                        <Input
+                          type="number"
+                          className="h-8 w-16"
+                          value={c.sort_order}
+                          onChange={(e) =>
+                            setCats((prev) =>
+                              prev.map((x) => (x.id === c.id ? { ...x, sort_order: Number(e.target.value) } : x))
+                            )
+                          }
+                          onBlur={(e) => updateSortOrder("categories", c.id, Number(e.target.value) || 0)}
+                        />
+                      </div>
                       <Label htmlFor={`cat-img-${c.id}`} className="cursor-pointer text-xs px-3 py-1.5 rounded-md border border-border hover:bg-muted">
                         {c.image_url ? "تغيير الصورة" : "رفع صورة"}
                       </Label>
