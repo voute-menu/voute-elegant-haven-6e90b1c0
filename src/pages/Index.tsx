@@ -136,7 +136,7 @@ const Index = () => {
               <span className="text-gold">❖</span>
             </div>
             <p className="text-muted-foreground max-w-xl mx-auto mt-4">
-              مختاراتنا من القهوة المختصة، محضّرة بحب وشغف.
+              حكاية حقيقية تُروى بكوب قهوة.
             </p>
           </div>
 
