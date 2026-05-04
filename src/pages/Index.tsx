@@ -280,7 +280,7 @@ const Index = () => {
             تابعنا وشارك تجربتك
           </p>
 
-          <div className="flex items-center justify-center gap-8 md:gap-12 mt-12">
+          <div className="flex items-center justify-center gap-8 md:gap-12 mt-20 md:mt-28">
             <a
               href="https://www.instagram.com/voutecafe?igsh=Z2FlM2RndThvYWNo"
               target="_blank"
