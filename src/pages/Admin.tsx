@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Trash2, Pencil, Plus, LogOut, ArrowRight, Image as ImageIcon } from "lucide-react";
+import { Trash2, Pencil, Plus, LogOut, ArrowRight, Image as ImageIcon, ChevronUp, ChevronDown } from "lucide-react";
 
 type Category = { id: string; name: string; sort_order: number; image_url?: string | null };
 type Product = {
@@ -212,6 +212,32 @@ const Admin = () => {
     loadData();
   };
 
+  const moveProduct = async (product: Product, direction: -1 | 1) => {
+    const siblings = prods
+      .filter((x) => x.category_id === product.category_id)
+      .sort((a, b) => a.sort_order - b.sort_order);
+    const idx = siblings.findIndex((x) => x.id === product.id);
+    const swapIdx = idx + direction;
+    if (swapIdx < 0 || swapIdx >= siblings.length) return;
+    const other = siblings[swapIdx];
+    const a = product.sort_order;
+    const b = other.sort_order;
+    // optimistic
+    setProds((prev) => prev.map((p) => {
+      if (p.id === product.id) return { ...p, sort_order: b };
+      if (p.id === other.id) return { ...p, sort_order: a };
+      return p;
+    }));
+    const [r1, r2] = await Promise.all([
+      supabase.from("products").update({ sort_order: b }).eq("id", product.id),
+      supabase.from("products").update({ sort_order: a }).eq("id", other.id),
+    ]);
+    if (r1.error || r2.error) {
+      toast.error("فشل تغيير الترتيب");
+      loadData();
+    }
+  };
+
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">جاري التحميل...</div>;
   }
@@ -352,8 +378,16 @@ const Admin = () => {
         {/* Products list */}
         <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
           <h2 className="font-display text-xl">المنتجات</h2>
+          <p className="text-xs text-muted-foreground">استخدم الأسهم لتغيير ترتيب المنتج داخل قسمه.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {prods.map((p) => {
+            {[...prods].sort((a, b) => {
+              if (a.category_id !== b.category_id) {
+                const ca = cats.find((c) => c.id === a.category_id)?.sort_order ?? 0;
+                const cb = cats.find((c) => c.id === b.category_id)?.sort_order ?? 0;
+                return ca - cb;
+              }
+              return a.sort_order - b.sort_order;
+            }).map((p) => {
               const cat = cats.find((c) => c.id === p.category_id);
               const editing = editingProd?.id === p.id;
               return (
@@ -411,7 +445,13 @@ const Admin = () => {
                             })}
                           </div>
                         </div>
-                        <div className="flex gap-1 pt-1">
+                        <div className="flex gap-1 pt-1 items-center">
+                          <Button size="icon" variant="ghost" title="تحريك للأعلى" onClick={() => moveProduct(p, -1)}>
+                            <ChevronUp className="w-4 h-4" />
+                          </Button>
+                          <Button size="icon" variant="ghost" title="تحريك للأسفل" onClick={() => moveProduct(p, 1)}>
+                            <ChevronDown className="w-4 h-4" />
+                          </Button>
                           <Button size="icon" variant="ghost" onClick={() => setEditingProd(p)}>
                             <Pencil className="w-4 h-4" />
                           </Button>
