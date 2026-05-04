@@ -378,8 +378,16 @@ const Admin = () => {
         {/* Products list */}
         <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
           <h2 className="font-display text-xl">المنتجات</h2>
+          <p className="text-xs text-muted-foreground">استخدم الأسهم لتغيير ترتيب المنتج داخل قسمه.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {prods.map((p) => {
+            {[...prods].sort((a, b) => {
+              if (a.category_id !== b.category_id) {
+                const ca = cats.find((c) => c.id === a.category_id)?.sort_order ?? 0;
+                const cb = cats.find((c) => c.id === b.category_id)?.sort_order ?? 0;
+                return ca - cb;
+              }
+              return a.sort_order - b.sort_order;
+            }).map((p) => {
               const cat = cats.find((c) => c.id === p.category_id);
               const editing = editingProd?.id === p.id;
               return (
