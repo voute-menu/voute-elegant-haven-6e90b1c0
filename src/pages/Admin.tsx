@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Trash2, Pencil, Plus, LogOut, ArrowRight, Image as ImageIcon, ChevronUp, ChevronDown } from "lucide-react";
+import { Trash2, Pencil, Plus, LogOut, ArrowRight, Image as ImageIcon } from "lucide-react";
 
 type Category = { id: string; name: string; sort_order: number; image_url?: string | null };
 type Product = {
