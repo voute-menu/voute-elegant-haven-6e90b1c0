@@ -301,13 +301,16 @@ const Index = () => {
             </a>
           </div>
 
-          <a
-            href="tel:0581323232"
-            dir="ltr"
-            className="inline-block mt-8 text-cream/80 hover:text-gold transition-colors text-base md:text-lg tracking-wider"
-          >
-            0581323232
-          </a>
+          <div className="mt-8 flex items-center justify-center gap-2 text-cream/80 text-base md:text-lg tracking-wider">
+            <span>رقم الإدارة :</span>
+            <a
+              href="tel:0581323232"
+              dir="ltr"
+              className="hover:text-gold transition-colors"
+            >
+              0581323232
+            </a>
+          </div>
 
           <div className="mt-16 pt-8 border-t border-cream/10">
             <p className="font-display text-2xl text-gold tracking-widest">VOUTE</p>
