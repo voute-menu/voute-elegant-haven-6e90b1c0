@@ -280,7 +280,7 @@ const Index = () => {
             تابعنا وشارك تجربتك
           </p>
 
-          <div className="flex items-center justify-center gap-6 md:gap-10 mt-12">
+          <div className="flex items-center justify-center gap-8 md:gap-12 mt-12">
             <a
               href="https://www.instagram.com/voutecafe?igsh=Z2FlM2RndThvYWNo"
               target="_blank"
@@ -288,7 +288,7 @@ const Index = () => {
               aria-label="إنستقرام"
               className="social-icon"
             >
-              <Instagram className="w-6 h-6 md:w-7 md:h-7" />
+              <Instagram className="w-9 h-9 md:w-11 md:h-11" strokeWidth={1.8} />
             </a>
             <a
               href="https://www.tiktok.com/@vooute"
@@ -297,7 +297,7 @@ const Index = () => {
               aria-label="تيك توك"
               className="social-icon"
             >
-              <Music2 className="w-6 h-6 md:w-7 md:h-7" />
+              <Music2 className="w-9 h-9 md:w-11 md:h-11" strokeWidth={1.8} />
             </a>
           </div>
 
