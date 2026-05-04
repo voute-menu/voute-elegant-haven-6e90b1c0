@@ -231,7 +231,7 @@ const Index = () => {
                           <div className="p-2.5 flex flex-col items-center text-center gap-1">
                             <span className="font-medium text-sm text-foreground line-clamp-1">{item.name}</span>
                             <span className="text-gold font-semibold text-sm">
-                              {item.price} <span className="text-[10px]">ر.س</span>
+                              {Number(item.price).toFixed(2)} <span className="text-[10px]">ر.س</span>
                             </span>
                             {limited && (
                               <span className="text-[10px] text-muted-foreground line-clamp-1">
