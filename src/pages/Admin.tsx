@@ -212,27 +212,18 @@ const Admin = () => {
     loadData();
   };
 
-  const moveProduct = async (product: Product, direction: -1 | 1) => {
-    const siblings = prods
-      .filter((x) => x.category_id === product.category_id)
-      .sort((a, b) => a.sort_order - b.sort_order);
-    const idx = siblings.findIndex((x) => x.id === product.id);
-    const swapIdx = idx + direction;
-    if (swapIdx < 0 || swapIdx >= siblings.length) return;
-    const other = siblings[swapIdx];
-    const a = product.sort_order;
-    const b = other.sort_order;
-    // optimistic
-    setProds((prev) => prev.map((p) => {
-      if (p.id === product.id) return { ...p, sort_order: b };
-      if (p.id === other.id) return { ...p, sort_order: a };
-      return p;
-    }));
-    const [r1, r2] = await Promise.all([
-      supabase.from("products").update({ sort_order: b }).eq("id", product.id),
-      supabase.from("products").update({ sort_order: a }).eq("id", other.id),
-    ]);
-    if (r1.error || r2.error) {
+  const updateSortOrder = async (
+    table: "categories" | "products" | "branches",
+    id: string,
+    value: number
+  ) => {
+    const setter =
+      table === "categories" ? setCats : table === "products" ? setProds : setBranches;
+    (setter as any)((prev: any[]) =>
+      prev.map((x) => (x.id === id ? { ...x, sort_order: value } : x))
+    );
+    const { error } = await supabase.from(table).update({ sort_order: value }).eq("id", id);
+    if (error) {
       toast.error("فشل تغيير الترتيب");
       loadData();
     }
