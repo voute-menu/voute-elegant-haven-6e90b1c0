@@ -302,7 +302,7 @@ const Index = () => {
           </div>
 
           <div className="mt-8 flex items-center justify-center gap-2 text-cream/80 text-base md:text-lg tracking-wider">
-            <span>رقم الإدارة :</span>
+            <span>للاقتراحات والشكاوي - رقم الإدارة :</span>
             <a
               href="tel:0581323232"
               dir="ltr"
