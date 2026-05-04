@@ -445,7 +445,13 @@ const Admin = () => {
                             })}
                           </div>
                         </div>
-                        <div className="flex gap-1 pt-1">
+                        <div className="flex gap-1 pt-1 items-center">
+                          <Button size="icon" variant="ghost" title="تحريك للأعلى" onClick={() => moveProduct(p, -1)}>
+                            <ChevronUp className="w-4 h-4" />
+                          </Button>
+                          <Button size="icon" variant="ghost" title="تحريك للأسفل" onClick={() => moveProduct(p, 1)}>
+                            <ChevronDown className="w-4 h-4" />
+                          </Button>
                           <Button size="icon" variant="ghost" onClick={() => setEditingProd(p)}>
                             <Pencil className="w-4 h-4" />
                           </Button>
