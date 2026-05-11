@@ -318,6 +318,22 @@ const Index = () => {
               © {new Date().getFullYear()} جميع الحقوق محفوظة
             </p>
           </div>
+
+          <div className="mt-10 flex justify-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-2 sm:gap-4 px-6 py-4 rounded-2xl bg-gradient-gold text-cream shadow-gold border border-gold/40">
+              <span className="font-display text-base md:text-lg tracking-wider">
+                تطوير: أسامة الشريف
+              </span>
+              <span className="hidden sm:inline text-cream/70">|</span>
+              <a
+                href="tel:0577549712"
+                dir="ltr"
+                className="font-semibold text-base md:text-lg tracking-widest hover:text-coffee transition-colors"
+              >
+                0577549712
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </div>
